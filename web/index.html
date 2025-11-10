@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>دستیار وب | Web Assistant</title>
+    <link rel="stylesheet" href="../extension/shared/styles.css" />
+    <script type="module" src="../extension/shared/main.js" defer></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="app-header">
+        <div class="branding">
+          <h1>دستیار وب من</h1>
+          <p>یادداشت ها، تقویم و میانبرها در یک صفحه</p>
+        </div>
+        <form id="search-form" class="search-form">
+          <label for="search-input" class="sr-only">عبارت جستجو</label>
+          <input
+            id="search-input"
+            type="search"
+            placeholder="... جستجو در وب"
+            autocomplete="off"
+          />
+          <button type="submit">جستجو</button>
+        </form>
+        <div class="header-actions">
+          <button id="calendar-mode-toggle" type="button">
+            تقویم: میلادی
+          </button>
+          <button id="open-help" type="button">راهنما</button>
+        </div>
+      </header>
+
+      <main class="app-grid">
+        <section class="panel calendar-panel" id="calendar-panel">
+          <div class="panel-header">
+            <h2>تقویم</h2>
+            <div class="calendar-controls">
+              <button data-action="prev-month" type="button" aria-label="ماه قبل">
+                ‹
+              </button>
+              <div class="calendar-current">
+                <span id="calendar-month">---</span>
+                <span id="calendar-year"></span>
+              </div>
+              <button data-action="next-month" type="button" aria-label="ماه بعد">
+                ›
+              </button>
+            </div>
+          </div>
+          <div class="calendar-meta">
+            <button id="calendar-today-btn" type="button">بازگشت به امروز</button>
+            <div class="calendar-legend">
+              <span class="legend-item">
+                <span class="dot dot-has-note"></span>
+                دارای یادداشت
+              </span>
+              <span class="legend-item">
+                <span class="dot dot-selected"></span>
+                روز انتخاب شده
+              </span>
+            </div>
+          </div>
+          <div class="calendar-grid" id="calendar-grid" aria-live="polite"></div>
+        </section>
+
+        <section class="panel quick-access-panel" id="quick-access-panel">
+          <div class="panel-header">
+            <h2>دسترسی سریع</h2>
+            <p class="panel-subtitle">میانبرهای دلخواه خود را بسازید</p>
+          </div>
+          <div class="quick-access-grid" id="quick-access-grid"></div>
+          <form id="quick-access-form" class="stacked-form">
+            <h3>افزودن / ویرایش میانبر</h3>
+            <input type="hidden" id="quick-link-id" />
+            <div class="form-field">
+              <label for="quick-link-title">عنوان</label>
+              <input id="quick-link-title" type="text" placeholder="مثلاً ایمیل" required />
+            </div>
+            <div class="form-field">
+              <label for="quick-link-url">آدرس</label>
+              <input
+                id="quick-link-url"
+                type="url"
+                placeholder="https://example.com"
+                required
+              />
+            </div>
+            <div class="form-field">
+              <label for="quick-link-icon">آیکن (ایموجی یا متن کوتاه)</label>
+              <input id="quick-link-icon" type="text" maxlength="3" placeholder="⭐️" />
+            </div>
+            <div class="form-actions">
+              <button type="submit">ذخیره میانبر</button>
+              <button type="button" id="quick-link-cancel">انصراف</button>
+            </div>
+          </form>
+        </section>
+
+        <section class="panel notes-panel" id="notes-panel">
+          <div class="panel-header">
+            <h2>یادداشت های عمومی</h2>
+            <p class="panel-subtitle">یادداشت هایی که به تاریخ خاصی متصل نیستند</p>
+          </div>
+          <form id="note-form" class="stacked-form">
+            <input type="hidden" id="note-id" />
+            <div class="form-field">
+              <label for="note-title">عنوان</label>
+              <input id="note-title" type="text" placeholder="موضوع یادداشت" required />
+            </div>
+            <div class="form-field">
+              <label for="note-content">محتوا</label>
+              <textarea id="note-content" rows="4" placeholder="متن یادداشت..." required></textarea>
+            </div>
+            <div class="form-actions">
+              <button type="submit">ذخیره یادداشت</button>
+              <button type="button" id="note-cancel">انصراف</button>
+            </div>
+          </form>
+          <div class="notes-list" id="notes-list" aria-live="polite"></div>
+        </section>
+      </main>
+
+      <section class="panel date-notes-panel" id="date-notes-panel">
+        <div class="panel-header">
+          <h2>یادداشت های روز انتخابی</h2>
+          <p class="panel-subtitle">
+            یک روز از تقویم انتخاب کنید تا یادداشت های همان روز را ببینید و مدیریت کنید
+          </p>
+        </div>
+        <div class="selected-date" id="selected-date-label">هنوز تاریخی انتخاب نشده است</div>
+        <form id="date-note-form" class="stacked-form" data-disabled="true">
+          <input type="hidden" id="date-note-id" />
+          <div class="form-field">
+            <label for="date-note-title">عنوان یادداشت</label>
+            <input id="date-note-title" type="text" placeholder="جلسه با تیم" required />
+          </div>
+          <div class="form-field">
+            <label for="date-note-content">محتوا</label>
+            <textarea id="date-note-content" rows="3" placeholder="جزئیات یادداشت..." required></textarea>
+          </div>
+          <div class="form-actions">
+            <button type="submit">ثبت یادداشت روز</button>
+            <button type="button" id="date-note-cancel">انصراف</button>
+          </div>
+        </form>
+        <div class="notes-list" id="date-notes-list"></div>
+      </section>
+    </div>
+
+    <template id="quick-link-template">
+      <article class="quick-link-card">
+        <button class="delete" title="حذف میانبر">&times;</button>
+        <div class="icon"></div>
+        <div class="details">
+          <p class="title"></p>
+          <a class="url" target="_blank" rel="noopener noreferrer">باز کردن</a>
+        </div>
+        <div class="card-actions">
+          <button class="edit">ویرایش</button>
+        </div>
+      </article>
+    </template>
+
+    <template id="note-template">
+      <article class="note-card">
+        <div class="note-head">
+          <h3></h3>
+          <span class="timestamps"></span>
+        </div>
+        <p class="content"></p>
+        <div class="card-actions">
+          <button class="edit">ویرایش</button>
+          <button class="delete">حذف</button>
+        </div>
+      </article>
+    </template>
+  </body>
+</html>

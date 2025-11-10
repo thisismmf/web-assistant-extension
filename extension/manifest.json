@@ -1,0 +1,25 @@
+{
+  "manifest_version": 3,
+  "name": "Web Assistant Dashboard",
+  "description": "تقویم (میلادی/شمسی)، یادداشت‌ها و میانبرهای شخصی در یک افزونه واحد.",
+  "version": "1.0.0",
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "دستیار وب من"
+  },
+  "permissions": [
+    "storage"
+  ],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "web-assistant@example.com",
+      "strict_min_version": "109.0"
+    }
+  },
+  "icons": {
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  }
+}
