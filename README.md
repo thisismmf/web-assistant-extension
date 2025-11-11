@@ -17,11 +17,13 @@ web/                      // نسخهٔ وب (index.html فقط فایل shared 
 extension/
   manifest.json           // پیکربندی افزونه
   popup.html              // رابط افزونه (همان رابط صفحهٔ وب)
-  shared/                 // CSS و ماژول‌های JS مشترک بین وب و افزونه
+  shared/
+    styles.css            // استایل‌های مشترک
+    app.js                // تمام منطق به صورت Vanilla JS بدون ماژول/فریم ورک
   icons/                  // آیکن‌های PNG چند اندازه
 ```
 
-> کد رابط در پوشهٔ `extension/shared` نگه‌داری می‌شود تا هم در `web/index.html` و هم در `extension/popup.html` استفاده شود.
+> کد رابط در یک فایل واحد `extension/shared/app.js` نگه‌داری می‌شود و هیچ فریم‌ورک/کتابخانه‌ای استفاده نشده است.
 
 ## اجرای نسخهٔ وب
 
