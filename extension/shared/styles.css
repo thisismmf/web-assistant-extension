@@ -24,6 +24,36 @@ body {
   color: var(--text);
 }
 
+/* Extension popup sizing: constrain to a comfortable width/height */
+html.is-extension,
+html.is-extension body {
+  width: 420px;
+  min-width: 420px;
+  max-width: 420px;
+  min-height: 620px;
+  overflow-y: auto;
+}
+
+html.is-extension .app-shell {
+  padding: 1rem;
+}
+
+html.is-extension .app-header {
+  grid-template-columns: 1fr;
+}
+
+html.is-extension .header-actions {
+  justify-content: center;
+}
+
+html.is-extension .app-grid {
+  grid-template-columns: 1fr;
+}
+
+html.is-extension .calendar-cell {
+  min-height: 56px;
+}
+
 .app-shell {
   max-width: 1280px;
   margin: 0 auto;
